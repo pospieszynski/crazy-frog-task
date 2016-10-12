@@ -22,7 +22,7 @@ class Legend extends React.Component {
 
                 <h3>Actions</h3>
                 <JumpButton handleJumpButton={this.props.handleJumpButton}/>
-                <ReproduceButton/>
+                <ReproduceButton handleReproduceButton={this.props.handleReproduceButton}/>
             </div>
         )
     }

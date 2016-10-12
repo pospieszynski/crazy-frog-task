@@ -6,7 +6,7 @@ class ReproduceButton extends React.Component {
 
     render(){
         return(
-            <button type="button" id="reproduce">Reproduce</button>
+            <button onClick={this.props.handleReproduceButton} type="button" id="reproduce">Reproduce</button>
         )
     }
 }
