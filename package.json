@@ -1,0 +1,35 @@
+{
+  "name": "crazy-frog",
+  "version": "1.0.0",
+  "description": "Recruitment task for Prme Module company.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pospieszynski/crazy-frog-task.git"
+  },
+  "keywords": [
+    "react",
+    "frog",
+    "javascript",
+    "recruitment"
+  ],
+  "author": "Wojciech Pośpieszyński",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pospieszynski/crazy-frog-task/issues"
+  },
+  "homepage": "https://github.com/pospieszynski/crazy-frog-task#readme",
+  "devDependencies": {
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2"
+  }
+}
