@@ -6,7 +6,7 @@ class JumpButton extends React.Component {
 
     render(){
         return(
-            <button type="button" id="jump">Jump</button>
+            <button type="button" onClick={this.props.handleJumpButton} id="jump">Jump</button>
         )
     }
 }
