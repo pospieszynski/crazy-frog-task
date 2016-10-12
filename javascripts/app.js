@@ -43,7 +43,6 @@ class App extends React.Component {
         this.handleSelect = this.handleSelect.bind(this);
         this.handleJumpButton = this.handleJumpButton.bind(this);
         this.handleReproduceButton = this.handleReproduceButton.bind(this);
-        console.log(this.state.cells)
     }
 
     getRadomCharacteristic(){
@@ -93,7 +92,6 @@ class App extends React.Component {
     }
 
     handleJumpButton() {
-        console.log("hit!")
         let type = this.state.cells[this.state.firstItemSelected].type;
         let frogPosition = null;
         let jumpPosition = null;
@@ -113,12 +111,10 @@ class App extends React.Component {
         else if (type == "") {
             jumpPosition = this.state.secondItemSelected;
         }
-        console.log(frogPosition + "  " + jumpPosition)
 
         if (frogPosition == null || jumpPosition == null) return;
 
         let placesToJump = this.getPlacesToJump(frogPosition);
-        console.log("cscsc" + placesToJump)
 
         if (placesToJump.includes(jumpPosition)) {
             let frog = this.state.cells[frogPosition].type;
@@ -134,8 +130,7 @@ class App extends React.Component {
 
     handleReproduceButton() {
         let getPlaceAvailable = this.getPlaceAvailable();
-        console.log("sexxx")
-        if ( getPlaceAvailable && this.areAdjacent() && this.areHomo()) {
+        if ( getPlaceAvailable && this.areAdjacent() && this.areHetero()) {
             let newCells = this.state.cells;
             newCells[getPlaceAvailable].characteristics = this.inheritFromParents();
             newCells[getPlaceAvailable].type = this.getRandomGender();
@@ -159,7 +154,7 @@ class App extends React.Component {
         }
     }
 
-    areHomo() {
+    areHetero() {
         let types = [this.state.cells[this.state.firstItemSelected].type, this.state.cells[this.state.secondItemSelected].type]
         return types.sort().toString() === ["frog female", "frog male"].toString() ?  true: false
     }
