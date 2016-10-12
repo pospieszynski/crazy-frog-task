@@ -7,11 +7,11 @@ class Cell extends React.Component {
         return(
             <td>
                 <label className={this.props.type}>
-                    <input type="checkbox" />
+                    <input type="checkbox" checked={this.props.checked} onChange={ (e) => this.props.handleSelect(e, this.props.id) } />
                 </label>
             </td>
         )
     }
 }
 
-export default Cell
+export default Cell;
