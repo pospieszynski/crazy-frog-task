@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Cell from './cell.js';
 
-class Lake extends React.Component {
+export default class Lake extends React.Component {
 
     renderCells() {
         let cellComponentsArray = this.props.cells.map((cell) => {
@@ -39,5 +39,3 @@ class Lake extends React.Component {
         )
     }
 }
-
-export default Lake;

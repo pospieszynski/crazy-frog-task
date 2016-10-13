@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-require("../stylesheets/screen.css");
 
-class JumpButton extends React.Component {
+export default class JumpButton extends React.Component {
 
     render(){
         return(
@@ -10,5 +9,3 @@ class JumpButton extends React.Component {
         )
     }
 }
-
-export default JumpButton;

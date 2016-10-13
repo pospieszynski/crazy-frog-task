@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Cell extends React.Component {
+export default class Cell extends React.Component {
 
     render(){
         return(
@@ -13,5 +13,3 @@ class Cell extends React.Component {
         )
     }
 }
-
-export default Cell;

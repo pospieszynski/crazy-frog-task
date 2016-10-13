@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import JumpButton from './jump_button';
 import ReproduceButton from './reproduce_button';
 
-class Legend extends React.Component {
+export default class Legend extends React.Component {
 
     render(){
         return(
@@ -27,5 +27,3 @@ class Legend extends React.Component {
         )
     }
 }
-
-export default Legend;

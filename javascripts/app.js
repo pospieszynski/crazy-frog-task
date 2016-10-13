@@ -4,13 +4,18 @@ import Lake from './lake.js';
 import Lagend from './legend.js';
 
 const frogTypes = ["frog male", "frog female"];
-const apperances = ["tall", "short", "fat", "slim"]
+const apperances = ["tall", "short", "fat", "slim"];
+const rows = 6;
+const cols = 10;
+const totalCells = rows * cols;
+const maleStep = 3;
+const femaleStep = 2;
 
-class App extends React.Component {
-
+export default  class App extends React.Component {
     constructor(props) {
         super(props);
         let initialCells = [];
+
         initialCells[0] = {
             id: 0,
             type: "frog male",
@@ -23,7 +28,7 @@ class App extends React.Component {
             characteristics: this.getRadomCharacteristic(),
             checked: false
         }
-        for (let i = 2; i < 60; i++) {
+        for (let i = 2; i < totalCells; i++) {
             initialCells.push(
                 {
                     id: i,
@@ -33,28 +38,42 @@ class App extends React.Component {
                 }
             )
         }
+
         this.state = {
             noOfSelections: 0,
             cells: initialCells,
             firstItemSelected: null,
-            secondItemSelected: null,
-            lastSelect: 0
+            secondItemSelected: null
         }
+
         this.handleSelect = this.handleSelect.bind(this);
         this.handleJumpButton = this.handleJumpButton.bind(this);
         this.handleReproduceButton = this.handleReproduceButton.bind(this);
     }
 
-    getRadomCharacteristic(){
-        return apperances.sort(function(a, b){return 0.5 - Math.random()}).splice(0,2);
+    render() {
+        return (
+            <div>
+                <Lake handleSelect={this.handleSelect} cells={this.state.cells}/>
+                <Lagend handleJumpButton={this.handleJumpButton} handleReproduceButton={this.handleReproduceButton}/>
+            </div>
+        )
     }
 
-    getRandomGender(){
-        return frogTypes.sort(function(a, b){return 0.5 - Math.random()})[0];
+    getRadomCharacteristic() {
+        return apperances.sort(function (a, b) {
+            return 0.5 - Math.random()
+        }).splice(0, 2);
+    }
+
+    getRandomGender() {
+        return frogTypes.sort(function (a, b) {
+            return 0.5 - Math.random()
+        })[0];
     }
 
     handleSelect(e, id) {
-        /* check if unselected */
+        /* max 2 selects possible + switching one by one */
         let updatedCells = this.state.cells;
         let selectionsNo = this.state.noOfSelections;
         let firstItem = this.state.firstItemSelected;
@@ -79,7 +98,6 @@ class App extends React.Component {
                 secondItem = firstItem;
                 firstItem = temp;
             }
-
             updatedCells[id].checked = true;
         }
 
@@ -117,11 +135,11 @@ class App extends React.Component {
         let placesToJump = this.getPlacesToJump(frogPosition);
 
         if (placesToJump.includes(jumpPosition)) {
-            let frog = this.state.cells[frogPosition].type;
-            let place = this.state.cells[jumpPosition].type;
+            let frogClass = this.state.cells[frogPosition].type;
+            let placeClass = this.state.cells[jumpPosition].type;
             let newCells = this.state.cells;
-            newCells[frogPosition].type = place;
-            newCells[jumpPosition].type = frog;
+            newCells[frogPosition].type = placeClass;
+            newCells[jumpPosition].type = frogClass;
             this.setState({
                 cells: newCells
             })
@@ -130,7 +148,7 @@ class App extends React.Component {
 
     handleReproduceButton() {
         let getPlaceAvailable = this.getPlaceAvailable();
-        if ( getPlaceAvailable && this.areAdjacent() && this.areHetero()) {
+        if (getPlaceAvailable && this.areAdjacent() && this.areHetero()) {
             let newCells = this.state.cells;
             newCells[getPlaceAvailable].characteristics = this.inheritFromParents();
             newCells[getPlaceAvailable].type = this.getRandomGender();
@@ -138,7 +156,7 @@ class App extends React.Component {
         }
     }
 
-    inheritFromParents(){
+    inheritFromParents() {
         return [
             this.state.cells[this.state.firstItemSelected].characteristics[0],
             this.state.cells[this.state.secondItemSelected].characteristics[0],
@@ -146,8 +164,8 @@ class App extends React.Component {
     }
 
     areAdjacent() {
-        let diff = this.state.firstItemSelected - this.state.secondItemSelected
-        if (Math.abs(diff) == 1 || Math.abs(diff) == 10) {
+        let diff = this.state.firstItemSelected - this.state.secondItemSelected;
+        if (Math.abs(diff) == 1 || Math.abs(diff) == cols) {
             return true
         } else {
             return false
@@ -156,62 +174,40 @@ class App extends React.Component {
 
     areHetero() {
         let types = [this.state.cells[this.state.firstItemSelected].type, this.state.cells[this.state.secondItemSelected].type]
-        return types.sort().toString() === ["frog female", "frog male"].toString() ?  true: false
+        return types.sort().toString() === ["frog female", "frog male"].toString() ? true : false
     }
 
-    getPlaceAvailable(){
+    getPlaceAvailable() {
         let motherPos;
         this.state.cells[this.state.firstItemSelected].type === "frog female" ? motherPos = this.state.firstItemSelected : motherPos = this.state.secondItemSelected
-        if(  motherPos + 1 < 60 && this.state.cells[motherPos + 1].type === "" ){
+        if (motherPos + 1 < totalCells && this.state.cells[motherPos + 1].type === "") {
             return motherPos + 1;
-        } else if(motherPos - 1 > 0 && this.state.cells[motherPos - 1].type === "") {
+        } else if (motherPos - 1 > 0 && this.state.cells[motherPos - 1].type === "") {
             return motherPos - 1;
-        }else if( motherPos + 10 < 60 && this.state.cells[motherPos + 10].type === "" ){
-            return motherPos + 10;
-        }else if(  motherPos - 10 > 0 && this.state.cells[motherPos - 10].type === "" ){
-            return motherPos - 10;
-        }else{
+        } else if (motherPos + cols < totalCells && this.state.cells[motherPos + cols].type === "") {
+            return motherPos + cols;
+        } else if (motherPos - cols > 0 && this.state.cells[motherPos - cols].type === "") {
+            return motherPos - cols;
+        } else {
             return null
         }
     }
 
     getPlacesToJump(frogPosition) {
-        let virtPoints = [];
+        let step;
 
-        if (this.state.cells[frogPosition].type === "frog female") {
-            virtPoints = [
-                frogPosition + 20,
-                frogPosition + 18,
-                frogPosition - 2,
-                frogPosition + 2,
-                frogPosition - 22,
-                frogPosition - 20,
-                frogPosition - 18,
-                frogPosition + 22
-            ]
-        } else {
-            virtPoints = [
-                frogPosition + 30,
-                frogPosition + 27,
-                frogPosition - 3,
-                frogPosition - 27,
-                frogPosition + 3,
-                frogPosition - 30,
-                frogPosition - 33,
-                frogPosition + 33
-            ]
-        }
+        this.state.cells[frogPosition].type === "frog female" ? step = femaleStep : step = maleStep;
+
+        let virtPoints = [
+            frogPosition - step,
+            frogPosition + step,
+            frogPosition + step * cols,
+            frogPosition - step * cols,
+            frogPosition - step * (cols - 1),
+            frogPosition + step * (cols + 1),
+            frogPosition + step * (cols - 1),
+            frogPosition - step * (cols + 1)
+        ]
         return virtPoints
     }
-
-    render() {
-        return (
-            <div>
-                <Lake handleSelect={this.handleSelect} cells={this.state.cells}/>
-                <Lagend handleJumpButton={this.handleJumpButton} handleReproduceButton={this.handleReproduceButton}/>
-            </div>
-        )
-    }
 }
-
-export default App

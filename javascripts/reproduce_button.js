@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-require("../stylesheets/screen.css");
 
-class ReproduceButton extends React.Component {
+export default class ReproduceButton extends React.Component {
 
     render(){
         return(
@@ -10,5 +9,3 @@ class ReproduceButton extends React.Component {
         )
     }
 }
-
-export default ReproduceButton;
